@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h> 
+struct TreeNode 
+{   int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+int findMin(struct TreeNode* root) 
+{
+    if (root == NULL) 
+    {   return INT_MAX;
+    }
+    int leftMin = findMin(root->left);
+    int rightMin = findMin(root->right);
+    return (root->data < leftMin) ? ((root->data < rightMin) ? root->data : rightMin) : ((leftMin < rightMin) ? leftMin : rightMin);
+}
+int findMax(struct TreeNode* root) 
+{   if (root == NULL) 
+    {    return INT_MIN;
+    }
+    int leftMax = findMax(root->left);
+    int rightMax = findMax(root->right);
+    return (root->data > leftMax) ? ((root->data > rightMax) ? root->data : rightMax) : ((leftMax > rightMax) ? leftMax : rightMax);
+}
+int main() 
+{   struct TreeNode* root = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    root->data = 10;
+    root->left = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    root->left->data = 5;
+    root->left->left = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    root->left->left->data = 1;
+    root->left->right = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    root->left->right->data = 8;
+    root->right = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    root->right->data = 20;
+    root->right->left = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    root->right->left->data = 15;
+    root->right->right = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    root->right->right->data = 25;
+
+    root->left->left->left = NULL;
+    root->left->left->right = NULL;
+    root->left->right->left = NULL;
+    root->left->right->right = NULL;
+    root->right->left->left = NULL;
+    root->right->left->right = NULL;
+    root->right->right->left = NULL;
+    root->right->right->right = NULL;
+
+    int minValue = findMin(root);
+    int maxValue = findMax(root);
+    printf("Minimum value in the binary tree: %d\n", minValue);
+    printf("Maximum value in the binary tree: %d\n", maxValue);
+    free(root->left->left);
+    free(root->left->right);
+    free(root->left);
+    free(root->right->left);
+    free(root->right->right);
+    free(root->right);
+    free(root);
+    return 0;
+}
