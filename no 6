@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+struct TreeNode 
+{    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+bool search(struct TreeNode* root, int value) 
+{   if (root == NULL) 
+    {   return false;
+    }
+    if (root->data == value) 
+    {   return true;
+    }
+    bool foundInLeft = search(root->left, value);
+    if (foundInLeft) 
+    {   return true;
+    }
+    bool foundInRight = search(root->right, value);
+    return foundInRight;
+}
+int main() 
+{   struct TreeNode* root = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    root->data = 1;
+    root->left = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    root->left->data = 2;
+    root->left->left = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    root->left->left->data = 4;
+    root->left->right = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    root->left->right->data = 5;
+    root->right = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    root->right->data = 3;
+    root->left->left->left = NULL;
+    root->left->left->right = NULL;
+    root->left->right->left = NULL;
+    root->left->right->right = NULL;
+    root->right->left = NULL;
+    root->right->right = NULL;
+
+    int valueToSearch = 4; 
+    if (search(root, valueToSearch)) 
+    {   printf("Value %d found in the binary tree.\n", valueToSearch);
+    } 
+    else 
+    {   printf("Value %d not found in the binary tree.\n", valueToSearch);
+    }
+    free(root->left->left);
+    free(root->left->right);
+    free(root->left);
+    free(root->right);
+    free(root);
+    return 0;
+}
