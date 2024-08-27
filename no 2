@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct Node 
+{
+    int data;            
+    struct Node *left;   
+    struct Node *right;  
+} Node;
+
+Node* createNode(int data) 
+{
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    if (newNode == NULL) 
+    {
+        printf("Memory allocation failed\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+int main() 
+{
+    Node* root = createNode(10);
+    root->left = createNode(5);
+    root->right = createNode(15);
+    printf("Root data: %d\n", root->data);
+    printf("Left child data: %d\n", root->left->data);
+    printf("Right child data: %d\n", root->right->data);
+    return 0;
+}
